@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-auth
+  template:
+    metadata:
+      labels:
+        app: hms-auth
+    spec:
+      containers:
+        - name: hms-auth
+          image: namankr301/hms_auth
+          env:
+            - name: MONGO_URI
+              value: "mongodb://hms-auth-mongo-srv:27017/hms-auth"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-auth-srv
+spec:
+  selector:
+    app: hms-auth
+  ports:
+    - name: hms-auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

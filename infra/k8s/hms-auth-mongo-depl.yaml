@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-auth-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-auth-mongo
+  template:
+    metadata:
+      labels:
+        app: hms-auth-mongo
+    spec:
+      containers:
+        - name: hms-auth-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-auth-mongo-srv
+spec:
+  selector:
+    app: hms-auth-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
