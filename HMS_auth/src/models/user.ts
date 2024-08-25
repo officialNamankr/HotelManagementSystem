@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      enum: Object.values(UserType),
       required: true,
     },
     createdBy: {

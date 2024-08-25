@@ -16,7 +16,11 @@ router.post(
   requireAuth,
   requireRoles(UserType.HOTEL_OWNER, UserType.HOTEL_ADMIN),
   [
-    body("email").not().isEmpty().withMessage("Email must not be empty"),
+    body("email")
+      .toLowerCase()
+      .not()
+      .isEmpty()
+      .withMessage("Email must not be empty"),
     body("password")
       .trim()
       .isLength({ min: 4, max: 20 })

@@ -10,7 +10,11 @@ const router = express.Router();
 router.post(
   "/api/users/signup",
   [
-    body("email").not().isEmpty().withMessage("Email must not be empty"),
+    body("email")
+      .toLowerCase()
+      .not()
+      .isEmpty()
+      .withMessage("Email must not be empty"),
     body("password")
       .trim()
       .isLength({ min: 4, max: 20 })
@@ -31,12 +35,13 @@ router.post(
     if (existingUser) {
       throw new BadRequestError("Email in use");
     }
-    let userRole = role || UserType.CUSTOMER;
+
+    console.log(role);
 
     const user = User.build({
       email,
       password,
-      role: userRole,
+      role,
       createdBy: "SELF",
     });
     await user.save();

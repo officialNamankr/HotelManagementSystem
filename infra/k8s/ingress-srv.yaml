@@ -17,3 +17,10 @@ spec:
                 name: hms-auth-srv
                 port:
                   number: 3000
+          - path: /api/rooms/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hms-rooms-srv
+                port:
+                  number: 3000

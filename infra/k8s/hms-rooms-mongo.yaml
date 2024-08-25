@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-rooms-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-rooms-mongo
+  template:
+    metadata:
+      labels:
+        app: hms-rooms-mongo
+    spec:
+      containers:
+        - name: hms-rooms-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-rooms-mongo-srv
+spec:
+  selector:
+    app: hms-rooms-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
