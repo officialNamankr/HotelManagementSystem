@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { RoomStatus, RoomType } from "@homestay.com/hms_common";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface RoomAttrs {
   name: string;
@@ -135,6 +136,9 @@ const roomSchema = new mongoose.Schema(
     },
   }
 );
+
+roomSchema.set("versionKey", "version");
+roomSchema.plugin(updateIfCurrentPlugin);
 
 roomSchema.statics.build = (attrs: RoomAttrs) => {
   return new Room(attrs);

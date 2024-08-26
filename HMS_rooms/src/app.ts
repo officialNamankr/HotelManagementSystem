@@ -9,7 +9,8 @@ import {
   NotFoundError,
 } from "@homestay.com/hms_common";
 import { newRoomRouter } from "./routes/new";
-import { indexRoomsRouter } from "./routes";
+import { indexRoomsRouter } from "./routes/index";
+import { updateRoomRouter } from "./routes/update";
 
 const app = express();
 app.set("trust proxy", true);
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(currentUser);
 app.use(newRoomRouter);
 app.use(indexRoomsRouter);
+app.use(updateRoomRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
