@@ -24,3 +24,10 @@ spec:
                 name: hms-rooms-srv
                 port:
                   number: 3000
+          - path: /api/reservations/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hms-reservations-srv
+                port:
+                  number: 3000

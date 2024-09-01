@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wrapper";
+import { RoomCreatedListener } from "./events/listener/room-created-listener";
+import { RoomUpdatedListener } from "./events/listener/room-udpated-listener";
 const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined");
@@ -29,7 +31,8 @@ const start = async () => {
     });
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
-
+    new RoomCreatedListener(natsWrapper.client).listen();
+    new RoomUpdatedListener(natsWrapper.client).listen();
     await mongoose.connect(process.env.MONGO_URI!);
     console.log("Connected to MongoDb");
   } catch (err) {

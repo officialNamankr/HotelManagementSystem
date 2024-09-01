@@ -11,6 +11,8 @@ import {
   RoomType,
 } from "@homestay.com/hms_common";
 import { Room } from "../models/room";
+import { natsWrapper } from "../nats-wrapper";
+import { RoomCreatedPublisher } from "../events/publishers/room-created-publisher";
 
 const router = express.Router();
 
@@ -99,6 +101,13 @@ router.post(
       createdBy: req.currentUser!.id,
     });
     await room.save();
+    await new RoomCreatedPublisher(natsWrapper.client).publish({
+      id: room.id,
+      name: room.name,
+      description: room.description,
+      roomPrice: room.roomPrice,
+      version: room.version,
+    });
     res.status(201).send(room);
   }
 );

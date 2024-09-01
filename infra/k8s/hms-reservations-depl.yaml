@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hms-rooms-depl
+  name: hms-reservations-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hms-rooms
+      app: hms-reservations
   template:
     metadata:
       labels:
-        app: hms-rooms
+        app: hms-reservations
     spec:
       containers:
-        - name: hms-rooms
-          image: namankr301/hms_rooms
+        - name: hms-reservations
+          image: namankr301/hms_reservations
           env:
             - name: MONGO_URI
-              value: "mongodb://hms-rooms-mongo-srv:27017/hms-rooms"
+              value: "mongodb://hms-reservations-mongo-srv:27017/hms-reservations"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hms-rooms-srv
+  name: hms-reservations-srv
 spec:
   selector:
-    app: hms-rooms
+    app: hms-reservations
   ports:
-    - name: hms-rooms
+    - name: hms-reservations
       protocol: TCP
       port: 3000
       targetPort: 3000

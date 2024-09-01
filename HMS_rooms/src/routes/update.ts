@@ -11,6 +11,8 @@ import {
   RoomStatus,
 } from "@homestay.com/hms_common";
 import { Room } from "../models/room";
+import { RoomUpdatedPublisher } from "../events/publishers/room-updated-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -100,7 +102,13 @@ router.put(
     });
 
     await room.save();
-
+    await new RoomUpdatedPublisher(natsWrapper.client).publish({
+      id: room.id,
+      name: room.name,
+      description: room.description,
+      roomPrice: room.roomPrice,
+      version: room.version,
+    });
     res.status(200).send(room);
   }
 );

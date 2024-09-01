@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
 import { UserType } from "@homestay.com/hms_common";
-import { displayPartsToString } from "typescript";
 interface UserAttrs {
   email: string;
   password: string;
+  name: string;
+  mobile: string;
   role: UserType;
   createdBy: string;
 }
@@ -12,6 +13,8 @@ interface UserAttrs {
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
+  name: string;
+  mobile: string;
   role: UserType;
   createdBy: string;
 }
@@ -27,6 +30,14 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    mobile: {
       type: String,
       required: true,
     },

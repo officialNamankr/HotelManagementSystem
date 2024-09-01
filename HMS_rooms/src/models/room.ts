@@ -27,7 +27,7 @@ interface RoomDoc extends mongoose.Document {
   roomType: RoomType;
   roomPrice: number;
   roomStatus: RoomStatus;
-  roomImage: string;
+  roomImage?: string;
   roomCapacity: number;
   roomBedType: string;
   roomBedCount: number;
@@ -39,6 +39,7 @@ interface RoomDoc extends mongoose.Document {
   createDate: Date;
   updateDate: Date;
   OrderId?: string;
+  version: number;
 }
 
 interface RoomModel extends mongoose.Model<RoomDoc> {

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-reservations-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-reservations-mongo
+  template:
+    metadata:
+      labels:
+        app: hms-reservations-mongo
+    spec:
+      containers:
+        - name: hms-reservations-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-reservations-mongo-srv
+spec:
+  selector:
+    app: hms-reservations-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

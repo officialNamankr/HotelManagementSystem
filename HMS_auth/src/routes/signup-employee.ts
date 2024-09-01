@@ -25,6 +25,12 @@ router.post(
       .trim()
       .isLength({ min: 4, max: 20 })
       .withMessage("Password must be between 4 and 20 characters"),
+    body("name").not().isEmpty().withMessage("Name must not be empty"),
+    body("mobile")
+      .not()
+      .isEmpty()
+      .isLength({ min: 10, max: 10 })
+      .withMessage("Invalid mobile number"),
     body("role")
       .custom((value) => {
         if (!Object.values(UserType).includes(value)) {
@@ -36,9 +42,7 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { email, password, role } = req.body;
-    console.log(role);
-    console.log(req.currentUser!.role);
+    const { email, password, name, mobile, role } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -55,6 +59,8 @@ router.post(
     const user = User.build({
       email,
       password,
+      name,
+      mobile,
       role,
       createdBy: req.currentUser!.id,
     });
