@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-maintainance-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-maintainance-mongo
+  template:
+    metadata:
+      labels:
+        app: hms-maintainance-mongo
+    spec:
+      containers:
+        - name: hms-maintainance-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-maintainance-mongo-srv
+spec:
+  selector:
+    app: hms-maintainance-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

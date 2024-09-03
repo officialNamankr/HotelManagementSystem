@@ -34,3 +34,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: namankr301/hms_maintainance
+      context: HMS_Maintainance
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

@@ -9,7 +9,7 @@ interface roomAttrs {
   description: string;
   // roomType: string;
   roomPrice: number;
-  // roomStatus: RoomStatus;
+  //roomStatus: RoomStatus;
   // roomCapacity: number;
   // roomBedType: string;
   // roomBedCount: number;

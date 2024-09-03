@@ -26,6 +26,7 @@ interface reservationDoc extends mongoose.Document {
   customerName: string;
   customerEmail: string;
   customerPhone: string;
+  version: number;
 }
 
 interface reservationModel extends mongoose.Model<reservationDoc> {

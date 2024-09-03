@@ -11,6 +11,8 @@ import {
 } from "@homestay.com/hms_common";
 import { Reservation } from "../models/reservation";
 import { Room } from "../models/room";
+import { ReservationCreatedPublisher } from "../events/publisher/reservation-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -122,6 +124,15 @@ router.post(
       customerPhone: customerMobile,
     });
     await reservation.save();
+    await new ReservationCreatedPublisher(natsWrapper.client).publish({
+      id: reservation.id,
+      userId: reservation.userId,
+      roomId: room.id,
+      checkIn: reservation.checkIn,
+      checkOut: reservation.checkOut,
+      status: reservation.status,
+      version: reservation.version,
+    });
     res.status(201).send(reservation);
   }
 );

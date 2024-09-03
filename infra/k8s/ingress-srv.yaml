@@ -31,3 +31,10 @@ spec:
                 name: hms-reservations-srv
                 port:
                   number: 3000
+          - path: /api/maintainance/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hms-maintainance-srv
+                port:
+                  number: 3000

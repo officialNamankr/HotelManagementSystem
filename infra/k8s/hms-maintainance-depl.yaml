@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-maintainance-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-maintainance
+  template:
+    metadata:
+      labels:
+        app: hms-maintainance
+    spec:
+      containers:
+        - name: hms-maintainance
+          image: namankr301/hms_maintainance
+          env:
+            - name: MONGO_URI
+              value: "mongodb://hms-maintainance-mongo-srv:27017/hms-maintainance"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: homestay
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-maintainance-srv
+spec:
+  selector:
+    app: hms-maintainance
+  ports:
+    - name: hms-maintainance
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
