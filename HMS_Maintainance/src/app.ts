@@ -9,6 +9,7 @@ import {
   NotFoundError,
 } from "@homestay.com/hms_common";
 import { indexDateWiseRouter } from "./routes/indexDateWise";
+import { updateMaintainanceRouter } from "./routes/update";
 
 const app = express();
 app.set("trust proxy", true);
@@ -22,6 +23,7 @@ app.use(
 app.use(cors());
 app.use(currentUser);
 app.use(indexDateWiseRouter);
+app.use(updateMaintainanceRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();

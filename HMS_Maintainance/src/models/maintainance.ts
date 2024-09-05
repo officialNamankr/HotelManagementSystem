@@ -54,6 +54,18 @@ const maintainanceSchema = new mongoose.Schema(
     updtedBy: {
       type: String,
     },
+    assignedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+
+    updatedAt: {
+      type: mongoose.Schema.Types.Date,
+      required: true,
+      default: new Date(),
+    },
   },
   {
     toJSON: {
