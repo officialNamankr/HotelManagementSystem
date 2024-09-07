@@ -42,3 +42,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: namankr301/hms_billing
+      context: HMS_billing
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

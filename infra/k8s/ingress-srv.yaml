@@ -38,3 +38,10 @@ spec:
                 name: hms-maintainance-srv
                 port:
                   number: 3000
+          - path: /api/billing/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hms-billing-srv
+                port:
+                  number: 3000

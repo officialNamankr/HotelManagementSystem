@@ -11,6 +11,8 @@ import {
   ReservationStatus,
 } from "@homestay.com/hms_common";
 import { Reservation } from "../models/reservation";
+import { natsWrapper } from "../nats-wrapper";
+import { ReservationCheckoutPublisher } from "../events/publisher/reservation-checkout-publisher";
 
 const router = express.Router();
 
@@ -33,8 +35,19 @@ router.patch(
     reservation.set({
       status: ReservationStatus.CHECKED_OUT,
       checkOut: new Date(),
+      updatedAt: new Date(),
+      updatedBy: req.currentUser!.id,
     });
     await reservation.save();
+    await new ReservationCheckoutPublisher(natsWrapper.client).publish({
+      id: reservation.id,
+      checkIn: reservation.checkIn,
+      checkOut: reservation.checkOut,
+      status: reservation.status,
+      roomPrice: reservation.roomPrice,
+      version: reservation.version,
+    });
+
     res.status(200).send(reservation);
   }
 );

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-billing-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hms-billing-mongo
+  template:
+    metadata:
+      labels:
+        app: hms-billing-mongo
+    spec:
+      containers:
+        - name: hms-billing-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-billing-mongo-srv
+spec:
+  selector:
+    app: hms-billing-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
